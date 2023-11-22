@@ -3,9 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Quote Machine</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="quotes.js"></script>
+
+    <style>
+        /* Custom styles to center the card */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .center-card {
+            max-width: 600px; 
+            width: 100%;
+        }
+    </style>
+
+
+    <script>
+        $(document).ready(function() {
+            console.log("Quote Machine");
+            generateQuote();
+            
+        });
+
+        //ES6
+        const generateQuote = () => {
+            console.log("Quote generated");
+            
+            // Math.floor() is a JavaScript method that returns the largest integer less than or equal to a given number. It basically rounds down a number to its nearest integer.  https://www.shecodes.io/athena/57992-what-does-math-floor-do-in-javascript#:~:text=floor()%20is%20a%20JavaScript,number%20to%20its%20nearest%20integer.&text=Here%2C%20the%20Math.,and%20%2D2.8%20to%20%2D3.
+            let randNumber = Math.floor(Math.random()*QUOTELIST.length);
+
+            $("#text").text(QUOTELIST[randNumber].quote);
+            $("#author").text("- "+QUOTELIST[randNumber].author); 
+
+            console.log(QUOTELIST[randNumber]);
+        };
+
+
+
+    </script>
+   
+
 </head>
 <body>
-    <h2>Quote-machine</h2>
+
+    <Wrapper id="quote-box" class="center-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- Card content goes here -->
+                <h2 class="card-title" id="text"></h2>
+                <p class="card-text text-end"  id="author"></p>
+                <div>
+                    <a href="https:twitter.com/intent/tweet"target="_blank" id="tweet-quote" onclick="" class="btn btn-secondary">Tweet Quote</a>
+                    <button id="new-quote" onclick="generateQuote()" class="btn btn-primary">New Quote</button>
+                    </div>
+            </div>
+        </div>
+    </Wrapper>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </body>
 </html>
