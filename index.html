@@ -6,6 +6,7 @@
     <title>Quote Machine</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="quotes.js"></script>
 
@@ -23,6 +24,11 @@
             max-width: 600px; 
             width: 100%;
         }
+
+        #text,#author, body, a, button {
+            transition: 1400ms ;
+        }
+
     </style>
 
 
@@ -37,18 +43,53 @@
         const generateQuote = () => {
             console.log("Quote generated");
             
-            // Math.floor() is a JavaScript method that returns the largest integer less than or equal to a given number. It basically rounds down a number to its nearest integer.  https://www.shecodes.io/athena/57992-what-does-math-floor-do-in-javascript#:~:text=floor()%20is%20a%20JavaScript,number%20to%20its%20nearest%20integer.&text=Here%2C%20the%20Math.,and%20%2D2.8%20to%20%2D3.
+            // Math.floor() is a JavaScript method that returns the largest integer less than or equal to a given number. It basically rounds down a number to its nearest integer.  
+            //https://www.shecodes.io/athena/57992-what-does-math-floor-do-in-javascript#:~:text=floor()%20is%20a%20JavaScript,number%20to%20its%20nearest%20integer.&text=Here%2C%20the%20Math.,and%20%2D2.8%20to%20%2D3.
             let randNumber = Math.floor(Math.random()*QUOTELIST.length);
+            let quoteText = QUOTELIST[randNumber].quote;
+            let quoteAuthor = QUOTELIST[randNumber].author;
 
-            $("#text").text(QUOTELIST[randNumber].quote);
-            $("#author").text("- "+QUOTELIST[randNumber].author); 
+            $("#text").text(quoteText);
+            $("#author").text("- "+quoteAuthor); 
 
-            console.log(QUOTELIST[randNumber]);
+            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+            // let quoteURL = quoteText.replace(/ /g, "%20");
+            // let authorURL = quoteAuthor.replace(/ /g, "%20");
+            let quoteURL = encodeURIComponent(quoteText);
+            let authorURL = encodeURIComponent(quoteAuthor);
+
+            //note: https://www.w3schools.com/tags/ref_urlencode.ASP
+            $("#tweet-quote").attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=%22" + quoteURL + "%22%20" + authorURL);
+
+
+            //colour
+            // Set the text and author with opacity transition
+            $("#text, #author").css({ opacity: 0 });
+
+            let randomColor = getRandomColor();
+            $("body, a, button").css({ backgroundColor: randomColor });
+            $(".card-body>p ,h2").css({ color: randomColor });
+
+            
+            // Set the text and author after a short delay
+            setTimeout(function () {
+                $("#text").text(quoteText);
+                $("#author").text("- " + quoteAuthor);
+                $("#text, #author").css({ opacity: 1 });
+                
+            },100); 
         };
 
-
-
-    </script>
+        // Function to generate a random color
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+       </script>
    
 
 </head>
@@ -61,10 +102,13 @@
                 <h2 class="card-title" id="text"></h2>
                 <p class="card-text text-end"  id="author"></p>
                 <div>
-                    <a href="https:twitter.com/intent/tweet"target="_blank" id="tweet-quote" onclick="" class="btn btn-secondary">Tweet Quote</a>
-                    <button id="new-quote" onclick="generateQuote()" class="btn btn-primary">New Quote</button>
-                    </div>
+                    <a href="#" target="_blank" id="tweet-quote" class="btn float-start"><i class="fa-brands fa-x-twitter" style="color: #ffffff;"></i></a>
+                    <button id="new-quote" onclick="generateQuote()" class="btn float-end" style="color: white">New Quote</button>
+                </div>
             </div>
+        </div>
+        <div>
+            <p class="text-center" style="color: white">By Amir Salleh</p>
         </div>
     </Wrapper>
 
